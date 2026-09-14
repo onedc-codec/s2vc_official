@@ -1,0 +1,36 @@
+# Pin torch separately to match your CUDA driver (see README "Installation" §1).
+# `requirements.txt` deliberately omits torch/torchvision so this file does not
+# pull in a wheel that mismatches your driver. Example for CUDA 12.1:
+#   pip install torch==2.4.0 torchvision==0.19.0 --index-url https://download.pytorch.org/whl/cu121
+
+# Core
+numpy
+einops
+omegaconf
+tqdm
+Pillow
+safetensors
+pandas
+
+# Diffusers stack (SD1.5 UNet + scheduler + SD2.1 VAE).
+# Pinned: peft<0.14 is missing `exclude_modules` (needed by our LoRA setup);
+#         diffusers≥0.31 + transformers≥4.46 require torch≥2.6 schema features.
+diffusers==0.30.3
+transformers==4.45.2
+huggingface_hub<0.26
+peft==0.14.0
+accelerate==1.0.1
+
+# Compression model
+vector_quantize_pytorch
+pytorch_msssim
+
+# Quality evaluation (eval_quality.py)
+lpips
+DISTS_pytorch
+torchmetrics
+torch-fidelity
+opencv-python
+
+# Build tooling for the C++ entropy coder in src/cpp/
+pybind11

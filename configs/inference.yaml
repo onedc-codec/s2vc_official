@@ -1,0 +1,32 @@
+# Architecture config for OneDC-video inference. These paths assume the
+# command is launched from src/ as shown in README.md. Absolute paths also
+# work. The released SD_ckpts.zip provides both directories.
+sd15: ../runs/SD_ckpts/stable-diffusion-v1-5
+sd21_vae: ../runs/SD_ckpts/stable-diffusion-2-1
+
+# diffusion settings (only conditioning_timestep is read at inference;
+# kept here for clarity)
+conditioning_timestep: 999
+
+# VAE (SD 2.1 large VAE with windowed mid-block attention)
+vae_attn_patch: 16
+
+# LoRA on SD 1.5 UNet — two adapters ('iframe' / 'pframe') are installed
+lora_config:
+  lora_rank: 64
+  lora_alpha: 8.0
+  lora_dropout: 0.0
+
+# I-frame codec (IntraNoAR)
+i_codec:
+  internal_ch: 512
+  bottleneck_ch: 128
+  unet_ch_config: [512, 768, 768]
+  z_fsq_levels: [4, 4, 4, 4, 4, 4, 4]
+
+# P-frame codec (DMC_OneDC)
+p_codec:
+  motion_ch: 160
+  internal_ch: 384
+  bottleneck_ch: 128
+  hyperbottleneck_ch: 64
